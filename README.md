@@ -20,13 +20,16 @@ of networks rendered as SVG images using Graphviz.
 The server is implemented using [ASP.Net Core](https://docs.microsoft.com/en-us/aspnet/core/?view=aspnetcore-3.1),
 using the Kestrel server multiplatform implementation.
 
-This same repository has both the project and the Visual Studio solution for the API server; therefore, you
+This same repository has both the project and the [Visual Studio](https://visualstudio.microsoft.com/) solution for the API server; therefore, you
 may clone the repository directly through Vsual Studio and work with it.
 
-## How to use it
+### Endpoints
+- `/health`: Health status JSON response.
+
+## How to run it
 Visual Studio allows executing this docker-ready project directly within the IDE if you have the Docker
 environment already setted up in your computer. This is the easiest _and recomended way for development_.
 
 If you just want to run the server:
-- You can download the latset build and execute in your computer using `[some command]`,
-- or download the latest docker build for the image in Dockerhub and run the server using `docker run`.
+- You can download the latset build from [releases](https://github.com/Janchorizo/gne-conversion-api/releases) and execute in your computer using `[some command]`,
+- or download the latest docker build for the [janchorizo/gneconversionapi](https://hub.docker.com/r/janchorizo/gneconversionapi) repo in Dockerhub and run the server using `docker run -p <host port>:80 janchorizo/gneconversionapi`.
