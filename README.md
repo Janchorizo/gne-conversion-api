@@ -14,6 +14,19 @@ For this, GNE takes a Graphviz svg output file as input along with the graph xpa
 needed to identify between nodes and links.
 
 ## About this repository
+This repository holds the code for the conversion API server that performs the parsing and JSON-formatting
+of networks rendered as SVG images using Graphviz.
+
+The server is implemented using [ASP.Net Core](https://docs.microsoft.com/en-us/aspnet/core/?view=aspnetcore-3.1),
+using the Kestrel server multiplatform implementation.
+
+This same repository has both the project and the Visual Studio solution for the API server; therefore, you
+may clone the repository directly through Vsual Studio and work with it.
 
 ## How to use it
+Visual Studio allows executing this docker-ready project directly within the IDE if you have the Docker
+environment already setted up in your computer. This is the easiest _and recomended way for development_.
 
+If you just want to run the server:
+- You can download the latset build and execute in your computer using `[some command]`,
+- or download the latest docker build for the image in Dockerhub and run the server using `docker run`.
