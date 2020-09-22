@@ -1,6 +1,8 @@
 # gne
 ### Graphviz Network Explorer _(GNE)_, simple user interface for interacting with svg output files from Graphviz.
 
+__(deployed on Heroku [https://gne-conversion-api.herokuapp.com/health](https://gne-conversion-api.herokuapp.com/health))__
+
 > Graphviz is capable of creating highly detailed network diagrams that can turn complicated to
 > read, interpret and, thus, getting insight from.
 
@@ -25,6 +27,7 @@ may clone the repository directly through Vsual Studio and work with it.
 
 ### Endpoints
 - `/health`: Health status JSON response.
+- `/parse`: Echoes back the form parameters.
 
 ## How to run it
 Visual Studio allows executing this docker-ready project directly within the IDE if you have the Docker
