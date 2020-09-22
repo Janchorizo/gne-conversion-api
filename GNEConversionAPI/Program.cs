@@ -20,7 +20,18 @@ namespace GNEConversionAPI
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
-                    webBuilder.UseStartup<Startup>();
+                    // Heroku does not support exposing ports
+                    // https://devcenter.heroku.com/articles/container-registry-and-runtime#dockerfile-commands-and-runtime
+                    var port = Environment.GetEnvironmentVariable("PORT");
+                    if (port != null)
+                    { // Deploying on Heroku
+                        webBuilder.UseStartup<Startup>()
+                            .UseUrls("http://*:" + port);
+                    } else
+                    {
+                        webBuilder.UseStartup<Startup>();
+                    }
+                    
                 });
     }
 }
