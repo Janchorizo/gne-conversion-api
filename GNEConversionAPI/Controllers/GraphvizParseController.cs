@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
 using GNEConversionAPI.Models;
+using GNEConversionAPI.Services.Graphviz;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -13,6 +14,11 @@ namespace GNEConversionAPI.Controllers
     [ApiController]
     public class GraphvizParseController : ControllerBase
     {
+        public GraphvizParseController(GraphvizService graphvizService)
+        {
+            this.graphvizService = graphvizService;
+        }
+        public GraphvizService graphvizService { get; set; }
         private FormFile GetRequestSVG() {
             var formFiles = HttpContext.Request.Form.Files;
             bool filePresent = formFiles.Count == 1
@@ -28,37 +34,32 @@ namespace GNEConversionAPI.Controllers
         }
 
         [HttpPost]
-        public Dictionary<string, string> Get()
+        public Network Get()
         {
             try
             {
                 string nodeString = HttpContext.Request.Form["node"];
-                var node = JsonSerializer.Deserialize<SVGNodeDescription>(
+                var nodeDescription = JsonSerializer.Deserialize<SVGNodeDescription>(
                     nodeString,
                     new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+
                 string linkString = HttpContext.Request.Form["link"];
-                var link = JsonSerializer.Deserialize<SVGNodeDescription>(
+                var linkDescription = JsonSerializer.Deserialize<SVGNodeDescription>(
                     linkString,
                     new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+
                 var svgFile = GetRequestSVG();
                 if (svgFile == null)
                 {
                     throw new System.Net.Http.HttpRequestException("Request not containing a valid svg file.");
                 }
 
-                var response = new Dictionary<string, string>() {
-                    {"node_xpath", node.Xpath},
-                    {"link_xpath", link.Xpath},
-                    {"svg_size", svgFile.Length.ToString()},
-                };
-                return response;
+                var network = this.graphvizService.ParseSVG(svgFile.FileName, nodeDescription, linkDescription);
+                return network;
             }
             catch (Exception e)
             {
-                var error = new Dictionary<string, string>(){
-                    { "error", e.Message }
-                };
-                return error;
+                return new Network();
             }
         }
     }
