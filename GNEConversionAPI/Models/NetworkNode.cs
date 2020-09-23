@@ -41,7 +41,13 @@ namespace GNEConversionAPI.Models
                         node.Address = entry.Value;
                         break;
                     case "ports":
-                        node.Ports = entry.Value.Split(',').Select(x => int.Parse(x));
+                        if (entry.Value.Length == 0)
+                        {
+                            node.Ports = new List<int>();
+                        } else
+                        {
+                            node.Ports = entry.Value.Split(',').Select(x => int.Parse(x));
+                        }
                         break;
                     default:
                         if (node.Properties == null)
