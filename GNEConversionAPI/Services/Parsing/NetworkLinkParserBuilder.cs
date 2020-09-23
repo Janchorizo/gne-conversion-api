@@ -15,7 +15,7 @@ namespace GNEConversionAPI.Services.Parsing
         }
         SVGNodeParser ISVGNodeParserBuilder.getResult()
         {
-            throw new NotImplementedException();
+            return this.Result;
         }
 
         void ISVGNodeParserBuilder.Reset()
@@ -25,17 +25,19 @@ namespace GNEConversionAPI.Services.Parsing
 
         void ISVGNodeParserBuilder.SetCompulsoryProperties()
         {
-            throw new NotImplementedException();
+            this.Result.SetCompulsoryProperties(new string[] { 
+                "source", "dest"
+            });
         }
 
         void ISVGNodeParserBuilder.SetNodeXpath(string xpath)
         {
-            throw new NotImplementedException();
+            this.Result.SetXpath(xpath);
         }
 
-        void ISVGNodeParserBuilder.SetProperties(IEnumerable<SVGNodePropertyDescription> )
+        void ISVGNodeParserBuilder.SetProperties(IEnumerable<SVGNodePropertyDescription> properties)
         {
-            throw new NotImplementedException();
+            this.Result.SetProperties(properties);
         }
     }
 }
