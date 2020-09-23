@@ -32,7 +32,17 @@ namespace GNEConversionAPI.Services.Parsing
             return "";
         }
         private IEnumerable<XmlNode> GetNodes(XmlDocument svg) {
-            return new XmlNode[] { };
+            XmlNamespaceManager nsmgr = new XmlNamespaceManager(svg.NameTable);
+            nsmgr.AddNamespace("svg", "http://www.w3.org/2000/svg");
+            var xmlNodes = svg.DocumentElement.SelectNodes(this.Xpath, nsmgr);
+            var xmlNodeList = new List<XmlNode>();
+
+            foreach (XmlNode node in xmlNodes)
+            {
+                xmlNodeList.Add(node);
+            }
+
+            return xmlNodeList;
         }
         public IEnumerable<SVGNode> ParseAll(string svg)
         {
@@ -41,10 +51,11 @@ namespace GNEConversionAPI.Services.Parsing
                 XmlDocument doc = new XmlDocument();
                 doc.LoadXml(svg);
                 var nodes = GetNodes(doc);
+                Console.WriteLine(nodes.Count());
             }
-            catch (Exception)
+            catch (Exception e)
             {
-
+                Console.WriteLine(e.ToString());
                 throw;
             }
             return new SVGNode[] { };
