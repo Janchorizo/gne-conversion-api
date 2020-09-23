@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Serialization;
@@ -39,7 +40,12 @@ namespace GNEConversionAPI.Services.Parsing
             var propertyValues = new List<string>();
             foreach (XmlNode propertyNode in propertyNodes)
             {
-                propertyValues.Add(propertyNode.InnerText);
+                var textContent = propertyNode.InnerText;
+                if (property.Regex.Length > 0)
+                {
+                    textContent = Regex.Replace(textContent, property.Regex, "");
+                }
+                propertyValues.Add(textContent);
             }
             var value = string.Join(',', propertyValues);
             return value;
