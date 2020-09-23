@@ -22,10 +22,20 @@ namespace GNEConversionAPI.Services.Parsing
         public void SetCompulsoryProperties(IEnumerable<string> compulsoryPropertyNames) {
             this.CompulsoryProperties = compulsoryPropertyNames;
         }
-        private bool HasCompulsoryProperties(Dictionary<string, string> properties) { }
-        public IEnumerable<SVGNode> ParseAll(string svg) { }
-        private Dictionary<string, string> GetProperties(XMLNode node) { }
-        private string GetProperty(XmlNode node, SVGNodePropertyDescription property) { }
-        private IEnumerable<SVGNode> GetNodes(string svg) { }
+        private bool HasCompulsoryProperties(Dictionary<string, string> properties) {
+            return true;
+        }
+        public IEnumerable<SVGNode> ParseAll(string svg) {
+            return new SVGNode[] { };
+        }
+        private Dictionary<string, string> GetProperties(XmlNode node) {
+            return new Dictionary<string, string>();
+        }
+        private string GetProperty(XmlNode node, SVGNodePropertyDescription property) {
+            return "";
+        }
+        private IEnumerable<XmlNode> GetNodes(string svg) {
+            return new XmlNode[] { };
+        }
     }
 }
