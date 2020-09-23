@@ -13,9 +13,15 @@ namespace GNEConversionAPI.Services.Parsing
         private string Xpath;
         private IEnumerable<SVGNodePropertyDescription> Properties;
         private IEnumerable<string> CompulsoryProperties;
-        public void SetXpath(string xpath) { }
-        public void SetProperties(IEnumerable<SVGNodePropertyDescription> properties) { }
-        public void SetCompulsoryProperties(IEnumerable<string> compulsoryPropertyNames) { }
+        public void SetXpath(string xpath) {
+            this.Xpath = xpath;
+        }
+        public void SetProperties(IEnumerable<SVGNodePropertyDescription> properties) {
+            this.Properties = properties;
+        }
+        public void SetCompulsoryProperties(IEnumerable<string> compulsoryPropertyNames) {
+            this.CompulsoryProperties = compulsoryPropertyNames;
+        }
         private bool HasCompulsoryProperties(Dictionary<string, string> properties) { }
         public IEnumerable<SVGNode> ParseAll(string svg) { }
         private Dictionary<string, string> GetProperties(XMLNode node) { }
