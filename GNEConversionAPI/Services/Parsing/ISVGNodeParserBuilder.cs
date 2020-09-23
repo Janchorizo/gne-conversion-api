@@ -9,7 +9,7 @@ namespace GNEConversionAPI.Services.Parsing
     public interface ISVGNodeParserBuilder
     {
         public void Reset();
-        public SVGNodeParser getResult();
+        public SVGNodeParser GetResult();
         public void SetNodeXpath(string xpath);
         public void SetProperties(IEnumerable<SVGNodePropertyDescription>);
         public void SetCompulsoryProperties();

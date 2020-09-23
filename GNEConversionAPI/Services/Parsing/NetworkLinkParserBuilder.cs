@@ -13,7 +13,7 @@ namespace GNEConversionAPI.Services.Parsing
         {
             this.Result = new SVGNodeParser();
         }
-        SVGNodeParser ISVGNodeParserBuilder.getResult()
+        SVGNodeParser ISVGNodeParserBuilder.GetResult()
         {
             return this.Result;
         }
