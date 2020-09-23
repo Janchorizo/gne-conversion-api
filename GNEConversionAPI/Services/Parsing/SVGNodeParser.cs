@@ -31,7 +31,7 @@ namespace GNEConversionAPI.Services.Parsing
         private string GetProperty(XmlNode node, SVGNodePropertyDescription property) {
             return "";
         }
-        private IEnumerable<XmlNode> GetNodes(string svg) {
+        private IEnumerable<XmlNode> GetNodes(XmlDocument svg) {
             return new XmlNode[] { };
         }
         public IEnumerable<SVGNode> ParseAll(string svg)
@@ -40,6 +40,7 @@ namespace GNEConversionAPI.Services.Parsing
             {
                 XmlDocument doc = new XmlDocument();
                 doc.LoadXml(svg);
+                var nodes = GetNodes(doc);
             }
             catch (Exception)
             {
