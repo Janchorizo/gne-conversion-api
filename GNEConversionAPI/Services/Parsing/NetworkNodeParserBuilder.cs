@@ -9,6 +9,10 @@ namespace GNEConversionAPI.Services.Parsing
     public class NetworkNodeParserBuilder : ISVGNodeParserBuilder
     {
         private SVGNodeParser Result;
+        public NetworkNodeParserBuilder()
+        {
+            this.Result = new SVGNodeParser();
+        }
         SVGNodeParser ISVGNodeParserBuilder.getResult()
         {
             throw new NotImplementedException();
@@ -16,7 +20,7 @@ namespace GNEConversionAPI.Services.Parsing
 
         void ISVGNodeParserBuilder.Reset()
         {
-            throw new NotImplementedException();
+            this.Result = new SVGNodeParser();
         }
 
         void ISVGNodeParserBuilder.SetCompulsoryProperties()
