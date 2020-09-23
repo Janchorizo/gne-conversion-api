@@ -11,7 +11,7 @@ namespace GNEConversionAPI.Services.Parsing
         public void Reset();
         public SVGNodeParser GetResult();
         public void SetNodeXpath(string xpath);
-        public void SetProperties(IEnumerable<SVGNodePropertyDescription>);
+        public void SetProperties(IEnumerable<SVGNodePropertyDescription> properties);
         public void SetCompulsoryProperties();
     }
 }
