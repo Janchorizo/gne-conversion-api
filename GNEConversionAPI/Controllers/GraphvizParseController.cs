@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using GNEConversionAPI.Models;
@@ -19,20 +21,32 @@ namespace GNEConversionAPI.Controllers
             this.graphvizService = graphvizService;
         }
         public GraphvizService graphvizService { get; set; }
-        private FormFile GetRequestSVG() {
+        private string GetRequestSVG() {
             var formFiles = HttpContext.Request.Form.Files;
             bool filePresent = formFiles.Count == 1
                 && formFiles[0].Name == "doc"
                 && formFiles[0].ContentType == "image/svg+xml";
-            if (filePresent == true)
+            if (filePresent == false)
             {
-                return (FormFile)formFiles[0];
-            } else
+                return null;
+            }
+
+            try
+            {
+                var file = (FormFile)formFiles[0];
+                var result = new StringBuilder();
+                using (var reader = new StreamReader(file.OpenReadStream()))
+                {
+                    while (reader.Peek() >= 0)
+                        result.AppendLine(reader.ReadLine());
+                }
+                return result.ToString();
+            }
+            catch (Exception)
             {
                 return null;
             }
         }
-
         [HttpPost]
         public Network Get()
         {
@@ -54,7 +68,7 @@ namespace GNEConversionAPI.Controllers
                     throw new System.Net.Http.HttpRequestException("Request not containing a valid svg file.");
                 }
 
-                var network = this.graphvizService.ParseSVG(svgFile.FileName, nodeDescription, linkDescription);
+                var network = this.graphvizService.ParseSVG(svgFile, nodeDescription, linkDescription);
                 return network;
             }
             catch (Exception e)
