@@ -25,9 +25,6 @@ namespace GNEConversionAPI.Services.Parsing
         private bool HasCompulsoryProperties(Dictionary<string, string> properties) {
             return true;
         }
-        public IEnumerable<SVGNode> ParseAll(string svg) {
-            return new SVGNode[] { };
-        }
         private Dictionary<string, string> GetProperties(XmlNode node) {
             return new Dictionary<string, string>();
         }
@@ -36,6 +33,20 @@ namespace GNEConversionAPI.Services.Parsing
         }
         private IEnumerable<XmlNode> GetNodes(string svg) {
             return new XmlNode[] { };
+        }
+        public IEnumerable<SVGNode> ParseAll(string svg)
+        {
+            try
+            {
+                XmlDocument doc = new XmlDocument();
+                doc.LoadXml(svg);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            return new SVGNode[] { };
         }
     }
 }
