@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace GNEConversionAPI.Services.Parsing
 {
-    interface ISVGNodeParserBuilder
+    public interface ISVGNodeParserBuilder
     {
         public void Reset();
         public SVGNodeParser getResult();
         public void SetNodeXpath(string xpath);
         public void SetProperties(IEnumerable<SVGNodePropertyDescription>);
-        public void SetCompulsoryProperties(IEnumerable<string> propertyNames);
+        public void SetCompulsoryProperties();
     }
 }
