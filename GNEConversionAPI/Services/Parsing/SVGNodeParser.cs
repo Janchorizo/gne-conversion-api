@@ -25,15 +25,26 @@ namespace GNEConversionAPI.Services.Parsing
         private bool HasCompulsoryProperties(Dictionary<string, string> properties) {
             return true;
         }
-        private Dictionary<string, string> GetProperties(XmlNode node) {
-            return new Dictionary<string, string>();
+        private Dictionary<string, string> GetProperties(XmlNode node, XmlNamespaceManager nsmgr) {
+            var properties = new Dictionary<string, string>();
+            foreach (SVGNodePropertyDescription propertyDescription in this.Properties)
+            {
+                var value = GetProperty(node, nsmgr, propertyDescription);
+                properties.Add(propertyDescription.Name, value);
+            }
+            return properties;
         }
-        private string GetProperty(XmlNode node, SVGNodePropertyDescription property) {
-            return "";
+        private string GetProperty(XmlNode node, XmlNamespaceManager nsmgr, SVGNodePropertyDescription property) {
+            var propertyNodes = node.SelectNodes(property.Xpath, nsmgr);
+            var propertyValues = new List<string>();
+            foreach (XmlNode propertyNode in propertyNodes)
+            {
+                propertyValues.Add(propertyNode.InnerText);
+            }
+            var value = string.Join(',', propertyValues);
+            return value;
         }
-        private IEnumerable<XmlNode> GetNodes(XmlDocument svg) {
-            XmlNamespaceManager nsmgr = new XmlNamespaceManager(svg.NameTable);
-            nsmgr.AddNamespace("svg", "http://www.w3.org/2000/svg");
+        private IEnumerable<XmlNode> GetNodes(XmlDocument svg, XmlNamespaceManager nsmgr) {
             var xmlNodes = svg.DocumentElement.SelectNodes(this.Xpath, nsmgr);
             var xmlNodeList = new List<XmlNode>();
 
@@ -44,21 +55,32 @@ namespace GNEConversionAPI.Services.Parsing
 
             return xmlNodeList;
         }
-        public IEnumerable<SVGNode> ParseAll(string svg)
+        public IEnumerable<SVGNode> ParseAll(string svgContent)
         {
+            var svgNodes = new List<SVGNode>();
             try
             {
-                XmlDocument doc = new XmlDocument();
-                doc.LoadXml(svg);
-                var nodes = GetNodes(doc);
-                Console.WriteLine(nodes.Count());
+                XmlDocument svgXmlDocument = new XmlDocument();
+                svgXmlDocument.LoadXml(svgContent);
+                XmlNamespaceManager nsmgr = new XmlNamespaceManager(svgXmlDocument.NameTable);
+                nsmgr.AddNamespace("svg", "http://www.w3.org/2000/svg");
+                var xmlNodes = GetNodes(svgXmlDocument, nsmgr);
+
+                foreach (XmlNode node in xmlNodes)
+                {
+                    var properties = GetProperties(node, nsmgr);
+                    var svgNode = new SVGNode()
+                    {
+                        Properties = properties
+                    };
+                    svgNodes.Add(svgNode);
+                }
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.ToString());
                 throw;
             }
-            return new SVGNode[] { };
+            return svgNodes;
         }
     }
 }
