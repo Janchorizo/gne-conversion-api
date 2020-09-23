@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using GNEConversionAPI.Services.Graphviz;
 using GNEConversionAPI.Services.Parsing;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -27,7 +28,8 @@ namespace GNEConversionAPI
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-            services.AddSingleton<SVGParsersService>(new SVGParsersService());
+            services.AddSingleton<SVGParsersService>();
+            services.AddSingleton<GraphvizService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
